@@ -6,8 +6,9 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/iShinzoo/ethara/internal/dto"
+	"github.com/iShinzoo/ethara/internal/model"
 	"github.com/iShinzoo/ethara/internal/repository"
-	"github.com/iShinzoo/ethara/internal/user"
+
 	"github.com/iShinzoo/ethara/pkg/config"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -44,7 +45,7 @@ func (s *AuthService) Signup(req dto.SignupRequest) error {
 		return err
 	}
 
-	user := user.User{
+	user := model.User{
 		Name:         req.Name,
 		Email:        req.Email,
 		PasswordHash: string(hashedPassword),

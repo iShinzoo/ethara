@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/iShinzoo/ethara/internal/project"
+	"github.com/iShinzoo/ethara/internal/model"
 	"gorm.io/gorm"
 )
 
@@ -15,20 +15,20 @@ func NewProjectRepository(db *gorm.DB) *ProjectRepository {
 	}
 }
 
-func (r *ProjectRepository) CreateProject(project *project.Project) error {
+func (r *ProjectRepository) CreateProject(project *model.Project) error {
 	return r.DB.Create(project).Error
 }
 
-func (r *ProjectRepository) AddProjectMember(member *project.ProjectMember) error {
+func (r *ProjectRepository) AddProjectMember(member *model.ProjectMember) error {
 	return r.DB.Create(member).Error
 }
 
 func (r *ProjectRepository) GetProjectMember(
 	userID string,
 	projectID string,
-) (*project.ProjectMember, error) {
+) (*model.ProjectMember, error) {
 
-	var member project.ProjectMember
+	var member model.ProjectMember
 
 	err := r.DB.
 		Where("user_id = ? AND project_id = ?", userID, projectID).

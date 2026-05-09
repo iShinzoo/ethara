@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"github.com/iShinzoo/ethara/internal/dto"
-	"github.com/iShinzoo/ethara/internal/project"
+	"github.com/iShinzoo/ethara/internal/model"
 	"github.com/iShinzoo/ethara/internal/repository"
 )
 
@@ -26,7 +26,7 @@ func (s *ProjectService) CreateProject(
 	userID string,
 ) error {
 
-	newProject := project.Project{
+	newProject := model.Project{
 		Name:        req.Name,
 		Description: req.Description,
 		CreatedBy:   userID,
@@ -38,7 +38,7 @@ func (s *ProjectService) CreateProject(
 		return err
 	}
 
-	adminMember := project.ProjectMember{
+	adminMember := model.ProjectMember{
 		UserID:    userID,
 		ProjectID: newProject.ID,
 		Role:      "ADMIN",
@@ -66,7 +66,7 @@ func (s *ProjectService) AddMember(
 		return errors.New("only admins can add members")
 	}
 
-	newMember := project.ProjectMember{
+	newMember := model.ProjectMember{
 		UserID:    req.UserID,
 		ProjectID: projectID,
 		Role:      req.Role,

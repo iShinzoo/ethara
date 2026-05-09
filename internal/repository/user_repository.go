@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/iShinzoo/ethara/internal/user"
+	"github.com/iShinzoo/ethara/internal/model"
 	"gorm.io/gorm"
 )
 
@@ -13,13 +13,13 @@ func NewUserRepository(db *gorm.DB) *UserRepository {
 	return &UserRepository{DB: db}
 }
 
-func (r *UserRepository) CreateUser(user *user.User) error {
+func (r *UserRepository) CreateUser(user *model.User) error {
 	return r.DB.Create(user).Error
 }
 
-func (r *UserRepository) GetUserByEmail(email string) (*user.User, error) {
+func (r *UserRepository) GetUserByEmail(email string) (*model.User, error) {
 
-	var user user.User
+	var user model.User
 
 	err := r.DB.Where("email = ?", email).First(&user).Error
 
