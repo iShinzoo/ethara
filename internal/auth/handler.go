@@ -6,6 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/iShinzoo/ethara/internal/dto"
 	"github.com/iShinzoo/ethara/internal/service"
+
+	"github.com/iShinzoo/ethara/pkg/response"
+	customValidator "github.com/iShinzoo/ethara/pkg/validator"
 )
 
 type AuthHandler struct {
@@ -22,48 +25,104 @@ func (h *AuthHandler) Signup(c *gin.Context) {
 
 	var req dto.SignupRequest
 
+	// Parse JSON
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "invalid request body",
-		})
+
+		response.Error(
+			c,
+			http.StatusBadRequest,
+			"invalid request body",
+		)
+
 		return
 	}
 
-	err := h.AuthService.Signup(req)
+	// Validate DTO
+	err := customValidator.Validate.Struct(req)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
-		})
+
+		response.Error(
+			c,
+			http.StatusBadRequest,
+			customValidator.FormatValidationError(err),
+		)
+
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{
-		"message": "user created successfully",
-	})
+	// Business logic
+	err = h.AuthService.Signup(req)
+
+	if err != nil {
+
+		response.Error(
+			c,
+			http.StatusBadRequest,
+			err.Error(),
+		)
+
+		return
+	}
+
+	response.Success(
+		c,
+		http.StatusCreated,
+		"user created successfully",
+		nil,
+	)
 }
 
 func (h *AuthHandler) Login(c *gin.Context) {
 
 	var req dto.LoginRequest
 
+	// Parse JSON
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"error": "invalid request body",
-		})
+
+		response.Error(
+			c,
+			http.StatusBadRequest,
+			"invalid request body",
+		)
+
 		return
 	}
 
+	// Validate DTO
+	err := customValidator.Validate.Struct(req)
+
+	if err != nil {
+
+		response.Error(
+			c,
+			http.StatusBadRequest,
+			customValidator.FormatValidationError(err),
+		)
+
+		return
+	}
+
+	// Login logic
 	token, err := h.AuthService.Login(req)
 
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"error": err.Error(),
-		})
+
+		response.Error(
+			c,
+			http.StatusUnauthorized,
+			err.Error(),
+		)
+
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
-		"token": token,
-	})
+	response.Success(
+		c,
+		http.StatusOK,
+		"login successful",
+		gin.H{
+			"token": token,
+		},
+	)
 }
