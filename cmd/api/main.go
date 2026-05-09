@@ -37,6 +37,7 @@ func main() {
 	router.Use(cors.New(cors.Config{
 		AllowOrigins: []string{
 			"http://localhost:3000",
+			"https://responsible-vitality-production-7405.up.railway.app",
 		},
 
 		AllowMethods: []string{
