@@ -3,7 +3,7 @@ package repository
 import (
 	"time"
 
-	"github.com/iShinzoo/ethara/internal/dashboard"
+	"github.com/iShinzoo/ethara/internal/dto"
 	"gorm.io/gorm"
 )
 
@@ -73,9 +73,9 @@ func (r *DashboardRepository) CountAssignedTasks(userID string) (int64, error) {
 
 func (r *DashboardRepository) GetProjectProgress(
 	userID string,
-) ([]dashboard.ProjectProgressSummary, error) {
+) ([]dto.ProjectProgressSummary, error) {
 
-	var result []dashboard.ProjectProgressSummary
+	var result []dto.ProjectProgressSummary
 
 	query := `
 	SELECT

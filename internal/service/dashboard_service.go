@@ -1,7 +1,7 @@
 package service
 
 import (
-	"github.com/iShinzoo/ethara/internal/dashboard"
+	"github.com/iShinzoo/ethara/internal/dto"
 	"github.com/iShinzoo/ethara/internal/repository"
 )
 
@@ -20,7 +20,7 @@ func NewDashboardService(
 
 func (s *DashboardService) GetDashboardData(
 	userID string,
-) (*dashboard.DashboardResponse, error) {
+) (*dto.DashboardResponse, error) {
 
 	totalTasks, err := s.DashboardRepo.CountTotalTasks(userID)
 
@@ -52,7 +52,7 @@ func (s *DashboardService) GetDashboardData(
 		return nil, err
 	}
 
-	response := dashboard.DashboardResponse{
+	response := dto.DashboardResponse{
 		TotalTasks:      totalTasks,
 		CompletedTasks:  completedTasks,
 		OverdueTasks:    overdueTasks,
