@@ -10,6 +10,7 @@ import (
 	"github.com/iShinzoo/ethara/internal/project"
 	"github.com/iShinzoo/ethara/internal/repository"
 	"github.com/iShinzoo/ethara/internal/service"
+	"github.com/iShinzoo/ethara/internal/task"
 	"github.com/iShinzoo/ethara/pkg/config"
 )
 
@@ -23,15 +24,21 @@ func main() {
 
 	userRepo := repository.NewUserRepository(db)
 	projectRepo := repository.NewProjectRepository(db)
+	taskRepo := repository.NewTaskRepository(db)
 
 	authService := service.NewAuthService(
 		userRepo,
 		cfg,
 	)
 	projectService := service.NewProjectService(projectRepo)
+	taskService := service.NewTaskService(
+		taskRepo,
+		projectRepo,
+	)
 
 	authHandler := auth.NewAuthHandler(authService)
 	projectHandler := project.NewProjectHandler(projectService)
+	taskHandler := task.NewTaskHandler(taskService)
 
 	router.POST("/signup", authHandler.Signup)
 	router.POST("/login", authHandler.Login)
@@ -58,6 +65,14 @@ func main() {
 		"/projects/:id/members",
 		projectHandler.AddMember,
 	)
+
+	protected.POST("/tasks", taskHandler.CreateTask)
+
+	protected.GET("/tasks", taskHandler.GetTasks)
+
+	protected.PATCH("/tasks/:id", taskHandler.UpdateTask)
+
+	protected.DELETE("/tasks/:id", taskHandler.DeleteTask)
 
 	log.Println("Server running on port", cfg.AppPort)
 
