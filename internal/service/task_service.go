@@ -30,6 +30,7 @@ func (s *TaskService) CreateTask(
 	userID string,
 ) error {
 
+	// Verify project membership
 	_, err := s.ProjectRepo.GetProjectMember(
 		userID,
 		req.ProjectID,
@@ -41,6 +42,7 @@ func (s *TaskService) CreateTask(
 
 	var dueDate *time.Time
 
+	// Validate due date
 	if req.DueDate != nil {
 
 		parsedTime, err := time.Parse(
@@ -48,9 +50,11 @@ func (s *TaskService) CreateTask(
 			*req.DueDate,
 		)
 
-		if err == nil {
-			dueDate = &parsedTime
+		if err != nil {
+			return errors.New("invalid due date format")
 		}
+
+		dueDate = &parsedTime
 	}
 
 	newTask := model.Task{
@@ -78,6 +82,7 @@ func (s *TaskService) UpdateTask(
 		return errors.New("task not found")
 	}
 
+	// Authorization check
 	_, err = s.ProjectRepo.GetProjectMember(
 		userID,
 		existingTask.ProjectID,
@@ -87,6 +92,7 @@ func (s *TaskService) UpdateTask(
 		return errors.New("not authorized")
 	}
 
+	// Partial updates
 	if req.Title != nil {
 		existingTask.Title = *req.Title
 	}
@@ -96,11 +102,37 @@ func (s *TaskService) UpdateTask(
 	}
 
 	if req.Status != nil {
+
+		validStatuses := map[string]bool{
+			"TODO":        true,
+			"IN_PROGRESS": true,
+			"DONE":        true,
+		}
+
+		if !validStatuses[*req.Status] {
+			return errors.New("invalid task status")
+		}
+
 		existingTask.Status = *req.Status
 	}
 
 	if req.AssignedTo != nil {
 		existingTask.AssignedTo = req.AssignedTo
+	}
+
+	// Due date update
+	if req.DueDate != nil {
+
+		parsedTime, err := time.Parse(
+			time.RFC3339,
+			*req.DueDate,
+		)
+
+		if err != nil {
+			return errors.New("invalid due date format")
+		}
+
+		existingTask.DueDate = &parsedTime
 	}
 
 	return s.TaskRepo.UpdateTask(existingTask)
