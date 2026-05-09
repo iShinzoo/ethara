@@ -9,7 +9,8 @@ export const API_ENDPOINTS = {
     LOGOUT: '/auth/logout',
     VERIFY: '/auth/verify',
     REFRESH: '/auth/refresh',
-    ME: '/api/me',
+    // NOTE: `API_BASE_URL` already includes `/api`
+    ME: '/me',
   },
   // Dashboard endpoints
   DASHBOARD: {
