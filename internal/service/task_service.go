@@ -4,6 +4,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/iShinzoo/ethara/internal/dto"
 	"github.com/iShinzoo/ethara/internal/model"
 	"github.com/iShinzoo/ethara/internal/repository"
@@ -58,6 +59,7 @@ func (s *TaskService) CreateTask(
 	}
 
 	newTask := model.Task{
+		ID:          uuid.New().String(),
 		Title:       req.Title,
 		Description: req.Description,
 		Status:      "TODO",

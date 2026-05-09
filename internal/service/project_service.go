@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 
+	"github.com/google/uuid"
 	"github.com/iShinzoo/ethara/internal/dto"
 	"github.com/iShinzoo/ethara/internal/model"
 	"github.com/iShinzoo/ethara/internal/repository"
@@ -27,6 +28,7 @@ func (s *ProjectService) CreateProject(
 ) error {
 
 	newProject := model.Project{
+		ID:          uuid.New().String(),
 		Name:        req.Name,
 		Description: req.Description,
 		CreatedBy:   userID,
