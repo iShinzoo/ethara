@@ -3,7 +3,7 @@ import { dashboardService } from '@/services/dashboard.service';
 
 export const useDashboardStats = () => {
   return useQuery({
-    queryKey: ['dashboard', 'stats'],
+    queryKey: ['dashboard'],
     queryFn: () => dashboardService.getStats(),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });

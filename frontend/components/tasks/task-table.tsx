@@ -70,7 +70,7 @@ export function TaskTable({ tasks }: TaskTableProps) {
               {tasks.map((task) => (
                 <tr key={task.id} className="border-b border-border hover:bg-muted/50 transition-colors">
                   <td className="py-3 px-3 text-foreground truncate max-w-xs font-medium">{task.title}</td>
-                  <td className="py-3 px-3 text-muted-foreground text-sm">{task.projectName || '-'}</td>
+                  <td className="py-3 px-3 text-muted-foreground text-sm">{task.project_name || '-'}</td>
                   <td className="py-3 px-3">
                     <select
                       value={task.status}
@@ -83,9 +83,9 @@ export function TaskTable({ tasks }: TaskTableProps) {
                       <option value="overdue">Overdue</option>
                     </select>
                   </td>
-                  <td className="py-3 px-3 text-muted-foreground text-sm">{task.assigneeName || '-'}</td>
+                  <td className="py-3 px-3 text-muted-foreground text-sm">{task.assignee_name || '-'}</td>
                   <td className="py-3 px-3 text-muted-foreground text-sm">
-                    {task.dueDate ? new Date(task.dueDate).toLocaleDateString() : '-'}
+                    {task.due_date ? new Date(task.due_date).toLocaleDateString() : '-'}
                   </td>
                   <td className="py-3 px-3">
                     <Button

@@ -1,17 +1,20 @@
+export const ROOT_API_URL = process.env.NEXT_PUBLIC_ROOT_API_URL || 'http://localhost:8080';
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 
 export const API_ENDPOINTS = {
-  // Auth endpoints
+  // Auth endpoints (at root level)
   AUTH: {
-    LOGIN: '/auth/login',
-    SIGNUP: '/auth/signup',
+    LOGIN: '/login',
+    SIGNUP: '/signup',
     LOGOUT: '/auth/logout',
     VERIFY: '/auth/verify',
     REFRESH: '/auth/refresh',
+    ME: '/api/me',
   },
   // Dashboard endpoints
   DASHBOARD: {
-    STATS: '/dashboard/stats',
+    STATS: '/dashboard',
+    GET: '/dashboard',
   },
   // Projects endpoints
   PROJECTS: {

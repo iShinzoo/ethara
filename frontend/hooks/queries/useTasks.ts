@@ -3,9 +3,9 @@ import { tasksService } from '@/services/tasks.service';
 import { CreateTaskRequest, UpdateTaskRequest } from '@/types/dashboard';
 
 interface TaskFilters {
-  projectId?: string;
+  project_id?: string;
   status?: string;
-  assigneeId?: string;
+  assigned_to?: string;
 }
 
 export const useTasks = (filters?: TaskFilters) => {
@@ -30,7 +30,7 @@ export const useCreateTask = () => {
     mutationFn: (data: CreateTaskRequest) => tasksService.createTask(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      queryClient.invalidateQueries({ queryKey: ['dashboard', 'stats'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
     },
   });
 };
@@ -43,7 +43,7 @@ export const useUpdateTask = () => {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['tasks', variables.id] });
-      queryClient.invalidateQueries({ queryKey: ['dashboard', 'stats'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
     },
   });
 };
@@ -54,7 +54,7 @@ export const useDeleteTask = () => {
     mutationFn: (id: string) => tasksService.deleteTask(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
-      queryClient.invalidateQueries({ queryKey: ['dashboard', 'stats'] });
+      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
     },
   });
 };

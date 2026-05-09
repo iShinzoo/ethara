@@ -25,25 +25,25 @@ export default function DashboardPage() {
   const stats = [
     {
       title: 'Total Tasks',
-      value: dashboardData.totalTasks,
+      value: dashboardData.total_tasks,
       icon: ListTodo,
       color: 'text-blue-400',
     },
     {
       title: 'Completed',
-      value: dashboardData.completedTasks,
+      value: dashboardData.completed_tasks,
       icon: CheckCircle2,
       color: 'text-green-400',
     },
     {
       title: 'Overdue',
-      value: dashboardData.overdueTasks,
+      value: dashboardData.overdue_tasks,
       icon: AlertCircle,
       color: 'text-red-400',
     },
     {
       title: 'Assigned to Me',
-      value: dashboardData.assignedToMe,
+      value: dashboardData.assigned_to_me,
       icon: User,
       color: 'text-purple-400',
     },
@@ -69,19 +69,19 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {dashboardData.projects.length === 0 ? (
+              {dashboardData.project_progress.length === 0 ? (
                 <p className="text-slate-400 text-sm">No projects yet</p>
               ) : (
-                dashboardData.projects.map((project) => (
-                  <div key={project.id}>
+                dashboardData.project_progress.map((project) => (
+                  <div key={project.project_id}>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-white">{project.name}</span>
-                      <span className="text-sm text-slate-400">{project.percentage}%</span>
+                      <span className="text-sm font-medium text-white">{project.project_name}</span>
+                      <span className="text-sm text-slate-400">{Math.round(project.progress)}%</span>
                     </div>
                     <div className="w-full bg-slate-700 rounded-full h-2">
                       <div
                         className="bg-blue-500 h-2 rounded-full transition-all"
-                        style={{ width: `${project.percentage}%` }}
+                        style={{ width: `${project.progress}%` }}
                       />
                     </div>
                   </div>
@@ -91,27 +91,28 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Recent Tasks */}
+        {/* Quick Stats */}
         <Card className="border-slate-700 bg-slate-800">
           <CardHeader>
-            <CardTitle className="text-white">Recent Tasks</CardTitle>
-            <CardDescription>Your latest tasks</CardDescription>
+            <CardTitle className="text-white">Summary</CardTitle>
+            <CardDescription>Overview of your tasks</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {dashboardData.recentTasks.length === 0 ? (
-                <p className="text-slate-400 text-sm">No recent tasks</p>
-              ) : (
-                dashboardData.recentTasks.slice(0, 5).map((task) => (
-                  <div key={task.id} className="flex items-start gap-3 p-2 rounded hover:bg-slate-700 transition">
-                    <CheckCircle2 className="w-4 h-4 text-blue-400 mt-0.5 flex-shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-white truncate">{task.title}</p>
-                      <p className="text-xs text-slate-400">{task.projectName}</p>
-                    </div>
-                  </div>
-                ))
-              )}
+              <div className="flex justify-between items-center p-2">
+                <span className="text-sm text-slate-400">Tasks Completed</span>
+                <span className="text-lg font-semibold text-green-400">{dashboardData.completed_tasks} / {dashboardData.total_tasks}</span>
+              </div>
+              <div className="border-t border-slate-700"></div>
+              <div className="flex justify-between items-center p-2">
+                <span className="text-sm text-slate-400">Overdue Tasks</span>
+                <span className="text-lg font-semibold text-red-400">{dashboardData.overdue_tasks}</span>
+              </div>
+              <div className="border-t border-slate-700"></div>
+              <div className="flex justify-between items-center p-2">
+                <span className="text-sm text-slate-400">Assigned to You</span>
+                <span className="text-lg font-semibold text-blue-400">{dashboardData.assigned_to_me}</span>
+              </div>
             </div>
           </CardContent>
         </Card>

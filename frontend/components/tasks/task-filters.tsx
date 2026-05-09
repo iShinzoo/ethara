@@ -15,14 +15,14 @@ import { TASK_STATUSES } from '@/lib/constants';
 interface TaskFiltersProps {
   filters: {
     status?: string;
-    projectId?: string;
+    project_id?: string;
   };
-  onFilterChange: (filters: { status?: string; projectId?: string }) => void;
+  onFilterChange: (filters: { status?: string; project_id?: string }) => void;
   projects: Array<{ id: string; name: string }>;
 }
 
 export function TaskFilters({ filters, onFilterChange, projects }: TaskFiltersProps) {
-  const hasActiveFilters = !!filters.status || !!filters.projectId;
+  const hasActiveFilters = !!filters.status || !!filters.project_id;
 
   const handleStatusChange = useCallback(
     (value: string) => {
@@ -38,7 +38,7 @@ export function TaskFilters({ filters, onFilterChange, projects }: TaskFiltersPr
     (value: string) => {
       onFilterChange({
         ...filters,
-        projectId: value || undefined,
+        project_id: value || undefined,
       });
     },
     [filters, onFilterChange]
@@ -65,7 +65,7 @@ export function TaskFilters({ filters, onFilterChange, projects }: TaskFiltersPr
         </SelectContent>
       </Select>
 
-      <Select value={filters.projectId || ''} onValueChange={handleProjectChange}>
+      <Select value={filters.project_id || ''} onValueChange={handleProjectChange}>
         <SelectTrigger className="w-40 bg-slate-700 border-slate-600 text-slate-200">
           <SelectValue placeholder="Filter by project" />
         </SelectTrigger>

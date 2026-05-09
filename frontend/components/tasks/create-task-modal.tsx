@@ -30,11 +30,9 @@ import { TASK_STATUSES, TASK_PRIORITIES } from '@/lib/constants';
 const createTaskSchema = z.object({
   title: z.string().min(1, 'Task title is required'),
   description: z.string().optional(),
-  projectId: z.string().min(1, 'Project is required'),
-  status: z.enum(['todo', 'in_progress', 'in-progress', 'done', 'overdue']),
-  priority: z.enum(['low', 'medium', 'high']),
-  dueDate: z.string().optional(),
-  assigneeId: z.string().min(1, 'Assignee is required'),
+  project_id: z.string().min(1, 'Project is required'),
+  due_date: z.string().optional(),
+  assigned_to: z.string().optional(),
 });
 
 type CreateTaskFormData = z.infer<typeof createTaskSchema>;
@@ -49,10 +47,9 @@ export function CreateTaskModal() {
     defaultValues: {
       title: '',
       description: '',
-      projectId: '',
-      status: 'todo',
-      priority: 'medium',
-      assigneeId: '',
+      project_id: '',
+      due_date: '',
+      assigned_to: '',
     },
   });
 
@@ -100,10 +97,22 @@ export function CreateTaskModal() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="projectId" className="text-sm font-medium text-slate-200">
+            <label htmlFor="description" className="text-sm font-medium text-slate-200">
+              Description (Optional)
+            </label>
+            <Input
+              id="description"
+              placeholder="Task description"
+              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+              {...form.register('description')}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="project_id" className="text-sm font-medium text-slate-200">
               Project
             </label>
-            <Select defaultValue={form.getValues('projectId')} onValueChange={(value) => form.setValue('projectId', value)}>
+            <Select defaultValue={form.getValues('project_id')} onValueChange={(value) => form.setValue('project_id', value)}>
               <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
                 <SelectValue placeholder="Select project" />
               </SelectTrigger>
@@ -115,43 +124,33 @@ export function CreateTaskModal() {
                 ))}
               </SelectContent>
             </Select>
-            {form.formState.errors.projectId && (
-              <p className="text-sm text-red-400">{form.formState.errors.projectId.message}</p>
+            {form.formState.errors.project_id && (
+              <p className="text-sm text-red-400">{form.formState.errors.project_id.message}</p>
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-2">
-              <label htmlFor="status" className="text-sm font-medium text-slate-200">
-                Status
-              </label>
-              <Select defaultValue={form.getValues('status')} onValueChange={(value) => form.setValue('status', value as any)}>
-                <SelectTrigger className="bg-slate-700 border-slate-600 text-white text-sm">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-slate-700 border-slate-600">
-                  <SelectItem value="todo" className="text-white">To Do</SelectItem>
-                  <SelectItem value="in_progress" className="text-white">In Progress</SelectItem>
-                  <SelectItem value="done" className="text-white">Done</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="space-y-2">
+            <label htmlFor="due_date" className="text-sm font-medium text-slate-200">
+              Due Date (Optional)
+            </label>
+            <Input
+              id="due_date"
+              type="date"
+              className="bg-slate-700 border-slate-600 text-white"
+              {...form.register('due_date')}
+            />
+          </div>
 
-            <div className="space-y-2">
-              <label htmlFor="priority" className="text-sm font-medium text-slate-200">
-                Priority
-              </label>
-              <Select defaultValue={form.getValues('priority')} onValueChange={(value) => form.setValue('priority', value as any)}>
-                <SelectTrigger className="bg-slate-700 border-slate-600 text-white text-sm">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-slate-700 border-slate-600">
-                  <SelectItem value="low" className="text-white">Low</SelectItem>
-                  <SelectItem value="medium" className="text-white">Medium</SelectItem>
-                  <SelectItem value="high" className="text-white">High</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+          <div className="space-y-2">
+            <label htmlFor="assigned_to" className="text-sm font-medium text-slate-200">
+              Assign To (Optional)
+            </label>
+            <Input
+              id="assigned_to"
+              placeholder="User ID"
+              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+              {...form.register('assigned_to')}
+            />
           </div>
 
           <div className="flex gap-2 justify-end">

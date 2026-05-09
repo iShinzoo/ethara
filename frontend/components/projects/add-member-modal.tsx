@@ -26,8 +26,8 @@ import { toast } from 'sonner';
 import { UserPlus } from 'lucide-react';
 
 const addMemberSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  role: z.enum(['owner', 'member', 'viewer']),
+  user_id: z.string().min(1, 'User ID is required'),
+  role: z.enum(['ADMIN', 'MEMBER']),
 });
 
 type AddMemberFormData = z.infer<typeof addMemberSchema>;
@@ -43,8 +43,8 @@ export function AddMemberModal({ projectId }: AddMemberModalProps) {
   const form = useForm<AddMemberFormData>({
     resolver: zodResolver(addMemberSchema),
     defaultValues: {
-      email: '',
-      role: 'member',
+      user_id: '',
+      role: 'MEMBER',
     },
   });
 
@@ -80,18 +80,17 @@ export function AddMemberModal({ projectId }: AddMemberModalProps) {
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium text-slate-200">
-              Email Address
+            <label htmlFor="user_id" className="text-sm font-medium text-slate-200">
+              User ID
             </label>
             <Input
-              id="email"
-              type="email"
-              placeholder="colleague@example.com"
+              id="user_id"
+              placeholder="Enter user ID"
               className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
-              {...form.register('email')}
+              {...form.register('user_id')}
             />
-            {form.formState.errors.email && (
-              <p className="text-sm text-red-400">{form.formState.errors.email.message}</p>
+            {form.formState.errors.user_id && (
+              <p className="text-sm text-red-400">{form.formState.errors.user_id.message}</p>
             )}
           </div>
 
@@ -104,9 +103,8 @@ export function AddMemberModal({ projectId }: AddMemberModalProps) {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-slate-700 border-slate-600">
-                <SelectItem value="member" className="text-white">Member</SelectItem>
-                <SelectItem value="viewer" className="text-white">Viewer</SelectItem>
-                <SelectItem value="owner" className="text-white">Owner</SelectItem>
+                <SelectItem value="MEMBER" className="text-white">Member</SelectItem>
+                <SelectItem value="ADMIN" className="text-white">Admin</SelectItem>
               </SelectContent>
             </Select>
             {form.formState.errors.role && (

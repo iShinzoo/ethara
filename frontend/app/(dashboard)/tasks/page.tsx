@@ -12,7 +12,7 @@ import { EmptyState } from '@/components/common/empty-state';
 import { CheckSquare2 } from 'lucide-react';
 
 export default function TasksPage() {
-  const [filters, setFilters] = useState<{ status?: string; projectId?: string }>({});
+  const [filters, setFilters] = useState<{ status?: string; project_id?: string }>({});
   const { data: tasks, isLoading, error, refetch } = useTasks(filters);
   const { data: projects = [] } = useProjects();
 

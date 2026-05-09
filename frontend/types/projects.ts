@@ -19,7 +19,7 @@ export interface ProjectMember {
   joinedAt: string;
 }
 
-export type ProjectRole = 'owner' | 'member' | 'viewer';
+export type ProjectRole = 'ADMIN' | 'MEMBER' | 'VIEWER';
 
 export interface CreateProjectRequest {
   name: string;
@@ -27,7 +27,7 @@ export interface CreateProjectRequest {
 }
 
 export interface AddProjectMemberRequest {
-  email: string;
+  user_id: string;
   role: ProjectRole;
 }
 
