@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"github.com/iShinzoo/ethara/internal/dto"
 	"github.com/iShinzoo/ethara/internal/model"
 	"github.com/iShinzoo/ethara/internal/repository"
@@ -46,6 +47,7 @@ func (s *AuthService) Signup(req dto.SignupRequest) error {
 	}
 
 	user := model.User{
+		ID:           uuid.New().String(),
 		Name:         req.Name,
 		Email:        req.Email,
 		PasswordHash: string(hashedPassword),
