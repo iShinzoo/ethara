@@ -22,7 +22,9 @@ export default function DashboardPage() {
     return <ErrorFallback />;
   }
 
-  const projectProgress = dashboardData.project_progress ?? [];
+  const projectProgress = Array.isArray(dashboardData.project_progress)
+    ? dashboardData.project_progress
+    : [];
 
   const stats = [
     {
