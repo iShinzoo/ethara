@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/iShinzoo/ethara/internal/auth"
+	"github.com/iShinzoo/ethara/internal/dto"
 	"github.com/iShinzoo/ethara/internal/repository"
 	"github.com/iShinzoo/ethara/internal/user"
 	"github.com/iShinzoo/ethara/pkg/config"
@@ -27,7 +27,7 @@ func NewAuthService(
 	}
 }
 
-func (s *AuthService) Signup(req auth.SignupRequest) error {
+func (s *AuthService) Signup(req dto.SignupRequest) error {
 
 	_, err := s.UserRepo.GetUserByEmail(req.Email)
 
@@ -53,7 +53,7 @@ func (s *AuthService) Signup(req auth.SignupRequest) error {
 	return s.UserRepo.CreateUser(&user)
 }
 
-func (s *AuthService) Login(req auth.LoginRequest) (string, error) {
+func (s *AuthService) Login(req dto.LoginRequest) (string, error) {
 
 	user, err := s.UserRepo.GetUserByEmail(req.Email)
 

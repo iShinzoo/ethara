@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/iShinzoo/ethara/internal/dto"
 	"github.com/iShinzoo/ethara/internal/service"
 )
 
@@ -19,7 +20,7 @@ func NewAuthHandler(authService *service.AuthService) *AuthHandler {
 
 func (h *AuthHandler) Signup(c *gin.Context) {
 
-	var req SignupRequest
+	var req dto.SignupRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -44,7 +45,7 @@ func (h *AuthHandler) Signup(c *gin.Context) {
 
 func (h *AuthHandler) Login(c *gin.Context) {
 
-	var req LoginRequest
+	var req dto.LoginRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
