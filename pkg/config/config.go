@@ -19,12 +19,16 @@ type Config struct {
 
 func LoadConfig() *Config {
 
+	// Optional .env loading for local development
 	viper.SetConfigFile(".env")
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		log.Println("No .env file found, using environment variables")
 	}
+
+	// Read environment variables
+	viper.AutomaticEnv()
 
 	config := &Config{
 		AppPort:    viper.GetString("APP_PORT"),
