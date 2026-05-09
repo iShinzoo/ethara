@@ -27,7 +27,7 @@ export interface CreateProjectRequest {
 }
 
 export interface AddProjectMemberRequest {
-  user_id: string;
+  email: string;
   role: ProjectRole;
 }
 

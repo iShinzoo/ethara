@@ -26,7 +26,7 @@ import { toast } from 'sonner';
 import { UserPlus } from 'lucide-react';
 
 const addMemberSchema = z.object({
-  user_id: z.string().min(1, 'User ID is required'),
+  email: z.string().email('Enter a valid email address'),
   role: z.enum(['ADMIN', 'MEMBER']),
 });
 
@@ -43,7 +43,7 @@ export function AddMemberModal({ projectId }: AddMemberModalProps) {
   const form = useForm<AddMemberFormData>({
     resolver: zodResolver(addMemberSchema),
     defaultValues: {
-      user_id: '',
+      email: '',
       role: 'MEMBER',
     },
   });
@@ -80,17 +80,17 @@ export function AddMemberModal({ projectId }: AddMemberModalProps) {
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="user_id" className="text-sm font-medium text-slate-200">
-              User ID
+            <label htmlFor="email" className="text-sm font-medium text-slate-200">
+              Email address
             </label>
             <Input
-              id="user_id"
-              placeholder="Enter user ID"
+              id="email"
+              placeholder="Enter user email"
               className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
-              {...form.register('user_id')}
+              {...form.register('email')}
             />
-            {form.formState.errors.user_id && (
-              <p className="text-sm text-red-400">{form.formState.errors.user_id.message}</p>
+            {form.formState.errors.email && (
+              <p className="text-sm text-red-400">{form.formState.errors.email.message}</p>
             )}
           </div>
 

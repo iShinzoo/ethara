@@ -12,8 +12,17 @@ export const projectsService = {
         : response.data.data || [];
 
       return projects.map((project: any) => ({
-        ...project,
+        id: String(project.id ?? project.ID ?? ''),
+        name: String(project.name ?? project.Name ?? 'Untitled Project'),
+        description: project.description ?? project.Description ?? undefined,
+        ownerId: String(
+          project.ownerId ?? project.OwnerId ?? project.createdBy ?? project.CreatedBy ?? ''
+        ),
         members: Array.isArray(project.members) ? project.members : [],
+        taskCount: Number(project.taskCount ?? project.TaskCount ?? 0),
+        completedTaskCount: Number(project.completedTaskCount ?? project.CompletedTaskCount ?? 0),
+        createdAt: String(project.createdAt ?? project.CreatedAt ?? new Date().toISOString()),
+        updatedAt: String(project.updatedAt ?? project.UpdatedAt ?? new Date().toISOString()),
       }));
     } catch (err) {
       // Backend in this assessment repo does not expose `GET /api/projects`.
