@@ -34,6 +34,9 @@ func ConnectDB(cfg *config.Config) *gorm.DB {
 	// Auto migrations
 	err = db.AutoMigrate(
 		&model.User{},
+		&model.Project{},
+		&model.Task{},
+		&model.ProjectMember{},
 	)
 
 	if err != nil {

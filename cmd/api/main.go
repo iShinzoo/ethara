@@ -164,15 +164,22 @@ func main() {
 	)
 
 	// Create HTTP server
+
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = cfg.AppPort
+	}
+
 	server := &http.Server{
-		Addr:    ":" + cfg.AppPort,
+		Addr:    ":" + port,
 		Handler: router,
 	}
 
 	// Run server in goroutine
 	go func() {
 
-		log.Println("Server running on port", cfg.AppPort)
+		log.Println("Server running on port", port)
 
 		if err := server.ListenAndServe(); err != nil &&
 			err != http.ErrServerClosed {
