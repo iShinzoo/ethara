@@ -78,6 +78,7 @@ func main() {
 
 	projectService := service.NewProjectService(
 		projectRepo,
+		userRepo,
 	)
 
 	taskService := service.NewTaskService(

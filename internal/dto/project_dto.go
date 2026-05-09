@@ -8,8 +8,8 @@ type CreateProjectRequest struct {
 }
 
 type AddMemberRequest struct {
-	UserID string `json:"user_id" validate:"required,uuid"`
-	Role   string `json:"role" validate:"required,oneof=ADMIN MEMBER"`
+	Email string `json:"email" validate:"required,email"`
+	Role  string `json:"role" validate:"required,oneof=ADMIN MEMBER"`
 }
 
 type ProjectResponse struct {

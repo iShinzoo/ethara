@@ -11,14 +11,17 @@ import (
 
 type ProjectService struct {
 	ProjectRepo *repository.ProjectRepository
+	UserRepo    *repository.UserRepository
 }
 
 func NewProjectService(
 	projectRepo *repository.ProjectRepository,
+	userRepo *repository.UserRepository,
 ) *ProjectService {
 
 	return &ProjectService{
 		ProjectRepo: projectRepo,
+		UserRepo:    userRepo,
 	}
 }
 
@@ -68,10 +71,16 @@ func (s *ProjectService) AddMember(
 	if member.Role != "ADMIN" {
 		return errors.New("only admins can add members")
 	}
+	// Find user by email
+	user, err := s.UserRepo.GetUserByEmail(req.Email)
+
+	if err != nil {
+		return errors.New("user not found")
+	}
 
 	newMember := model.ProjectMember{
 		ID:        uuid.New().String(),
-		UserID:    req.UserID,
+		UserID:    user.ID,
 		ProjectID: projectID,
 		Role:      req.Role,
 	}
