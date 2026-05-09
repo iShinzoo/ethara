@@ -19,6 +19,8 @@ import (
 	"github.com/iShinzoo/ethara/internal/service"
 	"github.com/iShinzoo/ethara/internal/task"
 	"github.com/iShinzoo/ethara/pkg/config"
+
+	"github.com/gin-contrib/cors"
 )
 
 func main() {
