@@ -40,3 +40,21 @@ func (r *ProjectRepository) GetProjectMember(
 
 	return &member, nil
 }
+
+func (r *ProjectRepository) GetProjectsByUserID(userID string) ([]model.Project, error) {
+
+	var projects []model.Project
+
+	err := r.DB.
+		Table("projects").
+		Select("projects.*").
+		Joins("JOIN project_members pm ON pm.project_id = projects.id").
+		Where("pm.user_id = ?", userID).
+		Find(&projects).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return projects, nil
+}

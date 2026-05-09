@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/iShinzoo/ethara/internal/dto"
 	"github.com/iShinzoo/ethara/internal/service"
+	"github.com/iShinzoo/ethara/pkg/response"
 )
 
 type ProjectHandler struct {
@@ -79,4 +80,42 @@ func (h *ProjectHandler) AddMember(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "member added successfully",
 	})
+}
+
+func (h *ProjectHandler) GetProjects(c *gin.Context) {
+
+	userID, exists := c.Get("user_id")
+
+	if !exists {
+
+		response.Error(
+			c,
+			http.StatusUnauthorized,
+			"user not found",
+		)
+
+		return
+	}
+
+	projects, err := h.ProjectService.GetProjects(
+		userID.(string),
+	)
+
+	if err != nil {
+
+		response.Error(
+			c,
+			http.StatusInternalServerError,
+			err.Error(),
+		)
+
+		return
+	}
+
+	response.Success(
+		c,
+		http.StatusOK,
+		"projects fetched successfully",
+		projects,
+	)
 }

@@ -78,3 +78,8 @@ func (s *ProjectService) AddMember(
 
 	return s.ProjectRepo.AddProjectMember(&newMember)
 }
+
+func (s *ProjectService) GetProjects(userID string) ([]model.Project, error) {
+
+	return s.ProjectRepo.GetProjectsByUserID(userID)
+}

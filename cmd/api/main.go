@@ -131,6 +131,11 @@ func main() {
 		projectHandler.CreateProject,
 	)
 
+	protected.GET(
+		"/projects",
+		projectHandler.GetProjects,
+	)
+
 	protected.POST(
 		"/projects/:id/members",
 		projectHandler.AddMember,
