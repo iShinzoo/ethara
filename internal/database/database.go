@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/iShinzoo/ethara/internal/model"
 	"github.com/iShinzoo/ethara/pkg/config"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -28,6 +30,17 @@ func ConnectDB(cfg *config.Config) *gorm.DB {
 	}
 
 	log.Println("Database connected successfully")
+
+	// Auto migrations
+	err = db.AutoMigrate(
+		&model.User{},
+	)
+
+	if err != nil {
+		log.Fatal("Failed to migrate database")
+	}
+
+	log.Println("Database migrated successfully")
 
 	return db
 }
