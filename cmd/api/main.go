@@ -7,6 +7,7 @@ import (
 	"github.com/iShinzoo/ethara/internal/auth"
 	"github.com/iShinzoo/ethara/internal/database"
 	"github.com/iShinzoo/ethara/internal/middleware"
+	"github.com/iShinzoo/ethara/internal/project"
 	"github.com/iShinzoo/ethara/internal/repository"
 	"github.com/iShinzoo/ethara/internal/service"
 	"github.com/iShinzoo/ethara/pkg/config"
@@ -21,13 +22,16 @@ func main() {
 	router := gin.Default()
 
 	userRepo := repository.NewUserRepository(db)
+	projectRepo := repository.NewProjectRepository(db)
 
 	authService := service.NewAuthService(
 		userRepo,
 		cfg,
 	)
+	projectService := service.NewProjectService(projectRepo)
 
 	authHandler := auth.NewAuthHandler(authService)
+	projectHandler := project.NewProjectHandler(projectService)
 
 	router.POST("/signup", authHandler.Signup)
 	router.POST("/login", authHandler.Login)
@@ -47,6 +51,13 @@ func main() {
 			"email":   email,
 		})
 	})
+
+	protected.POST("/projects", projectHandler.CreateProject)
+
+	protected.POST(
+		"/projects/:id/members",
+		projectHandler.AddMember,
+	)
 
 	log.Println("Server running on port", cfg.AppPort)
 
