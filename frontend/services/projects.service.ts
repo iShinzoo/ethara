@@ -7,7 +7,14 @@ export const projectsService = {
   async getProjects(): Promise<Project[]> {
     try {
       const response = await getAxiosInstance().get(API_ENDPOINTS.PROJECTS.LIST);
-      return Array.isArray(response.data) ? response.data : response.data.data || [];
+      const projects = Array.isArray(response.data)
+        ? response.data
+        : response.data.data || [];
+
+      return projects.map((project: any) => ({
+        ...project,
+        members: Array.isArray(project.members) ? project.members : [],
+      }));
     } catch (err) {
       // Backend in this assessment repo does not expose `GET /api/projects`.
       // Fallback: derive project list from `/api/dashboard` (project_progress).

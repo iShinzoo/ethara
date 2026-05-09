@@ -47,7 +47,10 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <div className="flex items-center justify-between pt-3 border-t border-border">
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Users className="w-4 h-4" />
-            <span>{project.members.length} member{project.members.length !== 1 ? 's' : ''}</span>
+            <span>
+              {project.members?.length ?? 0} member
+              {(project.members?.length ?? 0) !== 1 ? 's' : ''}
+            </span>
           </div>
           <AddMemberModal projectId={project.id} />
         </div>
