@@ -41,6 +41,7 @@ func (s *ProjectService) CreateProject(
 	}
 
 	adminMember := model.ProjectMember{
+		ID:        uuid.New().String(),
 		UserID:    userID,
 		ProjectID: newProject.ID,
 		Role:      "ADMIN",
@@ -69,6 +70,7 @@ func (s *ProjectService) AddMember(
 	}
 
 	newMember := model.ProjectMember{
+		ID:        uuid.New().String(),
 		UserID:    req.UserID,
 		ProjectID: projectID,
 		Role:      req.Role,
