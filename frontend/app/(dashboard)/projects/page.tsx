@@ -23,8 +23,8 @@ export default function ProjectsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white">Projects</h1>
-          <p className="text-slate-400 mt-2">Manage and organize your projects</p>
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground">Projects</h1>
+          <p className="text-muted-foreground mt-2">Manage and organize your projects</p>
         </div>
         <CreateProjectModal />
       </div>

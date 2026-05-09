@@ -9,7 +9,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center">
+      <div className="min-h-screen bg-background app-gradient flex items-center justify-center">
         <LoadingSpinner text="Loading..." />
       </div>
     );

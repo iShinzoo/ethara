@@ -52,27 +52,27 @@ export function CreateProjectModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm">
           <Plus className="w-4 h-4 mr-2" />
           New Project
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-slate-800 border-slate-700">
+      <DialogContent className="bg-card border-border">
         <DialogHeader>
-          <DialogTitle className="text-white">Create New Project</DialogTitle>
-          <DialogDescription className="text-slate-400">
+          <DialogTitle className="text-foreground">Create New Project</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
             Create a new project to organize your tasks
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="name" className="text-sm font-medium text-slate-200">
+            <label htmlFor="name" className="text-sm font-medium text-foreground">
               Project Name
             </label>
             <Input
               id="name"
               placeholder="e.g., Q1 Roadmap"
-              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+              className="bg-background border-input text-foreground placeholder:text-muted-foreground"
               {...form.register('name')}
             />
             {form.formState.errors.name && (
@@ -81,13 +81,13 @@ export function CreateProjectModal() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="description" className="text-sm font-medium text-slate-200">
+            <label htmlFor="description" className="text-sm font-medium text-foreground">
               Description (Optional)
             </label>
             <textarea
               id="description"
               placeholder="Project description..."
-              className="w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 bg-background border border-input rounded-md text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               rows={3}
               {...form.register('description')}
             />
@@ -101,13 +101,13 @@ export function CreateProjectModal() {
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
-              className="border-slate-600 text-slate-200 hover:bg-slate-700"
+              className="border-border"
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
               disabled={createProjectMutation.isPending}
             >
               {createProjectMutation.isPending ? 'Creating...' : 'Create Project'}

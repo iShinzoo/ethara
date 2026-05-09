@@ -50,15 +50,15 @@ export function TaskFilters({ filters, onFilterChange, projects }: TaskFiltersPr
 
   return (
     <div className="flex items-center gap-3 flex-wrap">
-      <Filter className="w-5 h-5 text-slate-400" />
+      <Filter className="w-5 h-5 text-muted-foreground" />
 
       <Select value={filters.status || ''} onValueChange={handleStatusChange}>
-        <SelectTrigger className="w-40 bg-slate-700 border-slate-600 text-slate-200">
+        <SelectTrigger className="w-44 bg-card border-border text-foreground">
           <SelectValue placeholder="Filter by status" />
         </SelectTrigger>
-        <SelectContent className="bg-slate-700 border-slate-600">
+        <SelectContent className="bg-popover border-border">
           {TASK_STATUSES.map((status) => (
-            <SelectItem key={status} value={status} className="text-slate-200">
+            <SelectItem key={status} value={status} className="text-foreground">
               {status.replace('_', ' ').charAt(0).toUpperCase() + status.replace('_', ' ').slice(1)}
             </SelectItem>
           ))}
@@ -66,12 +66,12 @@ export function TaskFilters({ filters, onFilterChange, projects }: TaskFiltersPr
       </Select>
 
       <Select value={filters.project_id || ''} onValueChange={handleProjectChange}>
-        <SelectTrigger className="w-40 bg-slate-700 border-slate-600 text-slate-200">
+        <SelectTrigger className="w-56 bg-card border-border text-foreground">
           <SelectValue placeholder="Filter by project" />
         </SelectTrigger>
-        <SelectContent className="bg-slate-700 border-slate-600">
+        <SelectContent className="bg-popover border-border">
           {projects.map((project) => (
-            <SelectItem key={project.id} value={project.id} className="text-slate-200">
+            <SelectItem key={project.id} value={project.id} className="text-foreground">
               {project.name}
             </SelectItem>
           ))}
@@ -83,7 +83,7 @@ export function TaskFilters({ filters, onFilterChange, projects }: TaskFiltersPr
           onClick={handleReset}
           variant="ghost"
           size="sm"
-          className="text-slate-400 hover:text-slate-200 hover:bg-slate-700"
+          className="text-muted-foreground hover:text-foreground"
         >
           <X className="w-4 h-4 mr-1" />
           Clear filters

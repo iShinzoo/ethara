@@ -40,7 +40,8 @@ export const API_ENDPOINTS = {
 export const TOKEN_KEY = 'auth_token';
 export const USER_KEY = 'auth_user';
 
-export const TASK_STATUSES = ['todo', 'in_progress', 'done', 'overdue'] as const;
+// Must match backend accepted statuses: TODO, IN_PROGRESS, DONE
+export const TASK_STATUSES = ['todo', 'in_progress', 'done'] as const;
 export const TASK_PRIORITIES = ['low', 'medium', 'high'] as const;
 export const PROJECT_ROLES = ['owner', 'member', 'viewer'] as const;
 

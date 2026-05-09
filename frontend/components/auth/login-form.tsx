@@ -47,24 +47,24 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="border border-slate-700 bg-slate-800">
+    <Card className="border border-border bg-card shadow-sm">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl text-white">Login</CardTitle>
-        <CardDescription className="text-slate-400">
+        <CardTitle className="text-2xl text-foreground">Login</CardTitle>
+        <CardDescription className="text-muted-foreground">
           Enter your credentials to access your account
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium text-slate-200">
+            <label htmlFor="email" className="text-sm font-medium text-foreground">
               Email
             </label>
             <Input
               id="email"
               type="email"
               placeholder="you@example.com"
-              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+              className="bg-background border-input text-foreground placeholder:text-muted-foreground"
               {...form.register('email')}
             />
             {form.formState.errors.email && (
@@ -73,14 +73,14 @@ export function LoginForm() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="password" className="text-sm font-medium text-slate-200">
+            <label htmlFor="password" className="text-sm font-medium text-foreground">
               Password
             </label>
             <Input
               id="password"
               type="password"
               placeholder="••••••••"
-              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+              className="bg-background border-input text-foreground placeholder:text-muted-foreground"
               {...form.register('password')}
             />
             {form.formState.errors.password && (
@@ -90,16 +90,16 @@ export function LoginForm() {
 
           <Button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             disabled={loginMutation.isPending}
           >
             {loginMutation.isPending ? 'Signing in...' : 'Sign in'}
           </Button>
         </form>
 
-        <div className="mt-4 text-center text-sm text-slate-400">
+        <div className="mt-4 text-center text-sm text-muted-foreground">
           Don&apos;t have an account?{' '}
-          <Link href="/signup" className="text-blue-400 hover:text-blue-300">
+          <Link href="/signup" className="text-primary hover:underline">
             Sign up
           </Link>
         </div>

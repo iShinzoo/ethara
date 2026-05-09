@@ -58,24 +58,24 @@ export function SignupForm() {
   };
 
   return (
-    <Card className="border border-slate-700 bg-slate-800">
+    <Card className="border border-border bg-card shadow-sm">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl text-white">Create Account</CardTitle>
-        <CardDescription className="text-slate-400">
+        <CardTitle className="text-2xl text-foreground">Create Account</CardTitle>
+        <CardDescription className="text-muted-foreground">
           Enter your details to create a new account
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="name" className="text-sm font-medium text-slate-200">
+            <label htmlFor="name" className="text-sm font-medium text-foreground">
               Full Name
             </label>
             <Input
               id="name"
               type="text"
               placeholder="John Doe"
-              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+              className="bg-background border-input text-foreground placeholder:text-muted-foreground"
               {...form.register('name')}
             />
             {form.formState.errors.name && (
@@ -84,14 +84,14 @@ export function SignupForm() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium text-slate-200">
+            <label htmlFor="email" className="text-sm font-medium text-foreground">
               Email
             </label>
             <Input
               id="email"
               type="email"
               placeholder="you@example.com"
-              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+              className="bg-background border-input text-foreground placeholder:text-muted-foreground"
               {...form.register('email')}
             />
             {form.formState.errors.email && (
@@ -100,14 +100,14 @@ export function SignupForm() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="password" className="text-sm font-medium text-slate-200">
+            <label htmlFor="password" className="text-sm font-medium text-foreground">
               Password
             </label>
             <Input
               id="password"
               type="password"
               placeholder="••••••••"
-              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+              className="bg-background border-input text-foreground placeholder:text-muted-foreground"
               {...form.register('password')}
             />
             {form.formState.errors.password && (
@@ -116,14 +116,14 @@ export function SignupForm() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="confirmPassword" className="text-sm font-medium text-slate-200">
+            <label htmlFor="confirmPassword" className="text-sm font-medium text-foreground">
               Confirm Password
             </label>
             <Input
               id="confirmPassword"
               type="password"
               placeholder="••••••••"
-              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+              className="bg-background border-input text-foreground placeholder:text-muted-foreground"
               {...form.register('confirmPassword')}
             />
             {form.formState.errors.confirmPassword && (
@@ -133,16 +133,16 @@ export function SignupForm() {
 
           <Button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
             disabled={signupMutation.isPending}
           >
             {signupMutation.isPending ? 'Creating account...' : 'Create account'}
           </Button>
         </form>
 
-        <div className="mt-4 text-center text-sm text-slate-400">
+        <div className="mt-4 text-center text-sm text-muted-foreground">
           Already have an account?{' '}
-          <Link href="/login" className="text-blue-400 hover:text-blue-300">
+          <Link href="/login" className="text-primary hover:underline">
             Sign in
           </Link>
         </div>

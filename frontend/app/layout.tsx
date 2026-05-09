@@ -32,7 +32,8 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <ErrorBoundary>
           <QueryClientProvider client={queryClient}>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            {/* Force light theme for this assessment UI */}
+            <ThemeProvider attribute="class" forcedTheme="light" defaultTheme="light" enableSystem={false}>
               <AuthProvider>
                 {children}
                 <Toaster />

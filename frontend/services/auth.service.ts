@@ -37,13 +37,9 @@ export const authService = {
   },
 
   async logout(): Promise<void> {
-    try {
-      const rootInstance = getRootAxiosInstance();
-      await rootInstance.post(API_ENDPOINTS.AUTH.LOGOUT);
-    } catch (error) {
-      // Continue logout even if request fails
-      console.error('Logout request failed:', error);
-    }
+    // Backend for this assessment doesn't implement a logout endpoint.
+    // Frontend logout is purely client-side (clear token/user).
+    return;
   },
 
   async verifyToken(): Promise<AuthResponse> {

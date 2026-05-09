@@ -67,8 +67,11 @@ export function TaskTable({ tasks }: TaskTableProps) {
               </tr>
             </thead>
             <tbody>
-              {tasks.map((task) => (
-                <tr key={task.id} className="border-b border-border hover:bg-muted/50 transition-colors">
+              {tasks.map((task, idx) => (
+                <tr
+                  key={task.id || `${task.title}-${idx}`}
+                  className="border-b border-border hover:bg-muted/50 transition-colors"
+                >
                   <td className="py-3 px-3 text-foreground truncate max-w-xs font-medium">{task.title}</td>
                   <td className="py-3 px-3 text-muted-foreground text-sm">{task.project_name || '-'}</td>
                   <td className="py-3 px-3">
@@ -80,7 +83,6 @@ export function TaskTable({ tasks }: TaskTableProps) {
                       <option value="todo">To Do</option>
                       <option value="in_progress">In Progress</option>
                       <option value="done">Done</option>
-                      <option value="overdue">Overdue</option>
                     </select>
                   </td>
                   <td className="py-3 px-3 text-muted-foreground text-sm">{task.assignee_name || '-'}</td>

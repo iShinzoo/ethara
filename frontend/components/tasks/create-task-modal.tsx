@@ -28,9 +28,9 @@ import { Plus } from 'lucide-react';
 import { TASK_STATUSES, TASK_PRIORITIES } from '@/lib/constants';
 
 const createTaskSchema = z.object({
-  title: z.string().min(1, 'Task title is required'),
+  title: z.string().min(3, 'Task title must be at least 3 characters'),
   description: z.string().optional(),
-  project_id: z.string().min(1, 'Project is required'),
+  project_id: z.string().uuid('Please select a valid project'),
   due_date: z.string().optional(),
   assigned_to: z.string().optional(),
 });
@@ -53,9 +53,18 @@ export function CreateTaskModal() {
     },
   });
 
+  const selectedProjectId = form.watch('project_id');
+
   const onSubmit = async (data: CreateTaskFormData) => {
     try {
-      await createTaskMutation.mutateAsync(data);
+      // Ensure we never send empty strings for optional fields
+      await createTaskMutation.mutateAsync({
+        ...data,
+        description: data.description?.trim() || '',
+        project_id: data.project_id,
+        due_date: data.due_date?.trim() ? data.due_date.trim() : undefined,
+        assigned_to: data.assigned_to?.trim() ? data.assigned_to.trim() : undefined,
+      });
       toast.success('Task created successfully!');
       setOpen(false);
       form.reset();
@@ -68,27 +77,27 @@ export function CreateTaskModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+        <Button className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-sm">
           <Plus className="w-4 h-4 mr-2" />
           New Task
         </Button>
       </DialogTrigger>
-      <DialogContent className="bg-slate-800 border-slate-700 max-w-md">
+      <DialogContent className="bg-card border-border max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-white">Create New Task</DialogTitle>
-          <DialogDescription className="text-slate-400">
+          <DialogTitle className="text-foreground">Create New Task</DialogTitle>
+          <DialogDescription className="text-muted-foreground">
             Add a new task to track
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <label htmlFor="title" className="text-sm font-medium text-slate-200">
+            <label htmlFor="title" className="text-sm font-medium text-foreground">
               Task Title
             </label>
             <Input
               id="title"
               placeholder="e.g., Design dashboard mockup"
-              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+              className="bg-background border-input text-foreground placeholder:text-muted-foreground"
               {...form.register('title')}
             />
             {form.formState.errors.title && (
@@ -97,28 +106,33 @@ export function CreateTaskModal() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="description" className="text-sm font-medium text-slate-200">
+            <label htmlFor="description" className="text-sm font-medium text-foreground">
               Description (Optional)
             </label>
             <Input
               id="description"
               placeholder="Task description"
-              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+              className="bg-background border-input text-foreground placeholder:text-muted-foreground"
               {...form.register('description')}
             />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="project_id" className="text-sm font-medium text-slate-200">
+            <label htmlFor="project_id" className="text-sm font-medium text-foreground">
               Project
             </label>
-            <Select defaultValue={form.getValues('project_id')} onValueChange={(value) => form.setValue('project_id', value)}>
-              <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
+            <Select
+              value={selectedProjectId || ''}
+              onValueChange={(value) =>
+                form.setValue('project_id', value, { shouldDirty: true, shouldTouch: true, shouldValidate: true })
+              }
+            >
+              <SelectTrigger className="bg-background border-input text-foreground">
                 <SelectValue placeholder="Select project" />
               </SelectTrigger>
-              <SelectContent className="bg-slate-700 border-slate-600">
+              <SelectContent className="bg-popover border-border">
                 {projects.map((project) => (
-                  <SelectItem key={project.id} value={project.id} className="text-white">
+                  <SelectItem key={project.id} value={project.id} className="text-foreground">
                     {project.name}
                   </SelectItem>
                 ))}
@@ -130,25 +144,25 @@ export function CreateTaskModal() {
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="due_date" className="text-sm font-medium text-slate-200">
+            <label htmlFor="due_date" className="text-sm font-medium text-foreground">
               Due Date (Optional)
             </label>
             <Input
               id="due_date"
               type="date"
-              className="bg-slate-700 border-slate-600 text-white"
+              className="bg-background border-input text-foreground"
               {...form.register('due_date')}
             />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="assigned_to" className="text-sm font-medium text-slate-200">
+            <label htmlFor="assigned_to" className="text-sm font-medium text-foreground">
               Assign To (Optional)
             </label>
             <Input
               id="assigned_to"
               placeholder="User ID"
-              className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
+              className="bg-background border-input text-foreground placeholder:text-muted-foreground"
               {...form.register('assigned_to')}
             />
           </div>
@@ -158,13 +172,13 @@ export function CreateTaskModal() {
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
-              className="border-slate-600 text-slate-200 hover:bg-slate-700"
+              className="border-border"
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              className="bg-primary hover:bg-primary/90 text-primary-foreground"
               disabled={createTaskMutation.isPending}
             >
               {createTaskMutation.isPending ? 'Creating...' : 'Create Task'}
