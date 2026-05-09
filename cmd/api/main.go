@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/iShinzoo/ethara/internal/auth"
+	"github.com/iShinzoo/ethara/internal/dashboard"
 	"github.com/iShinzoo/ethara/internal/database"
 	"github.com/iShinzoo/ethara/internal/middleware"
 	"github.com/iShinzoo/ethara/internal/project"
@@ -25,6 +26,7 @@ func main() {
 	userRepo := repository.NewUserRepository(db)
 	projectRepo := repository.NewProjectRepository(db)
 	taskRepo := repository.NewTaskRepository(db)
+	dashboardRepo := repository.NewDashboardRepository(db)
 
 	authService := service.NewAuthService(
 		userRepo,
@@ -35,10 +37,16 @@ func main() {
 		taskRepo,
 		projectRepo,
 	)
+	dashboardService := service.NewDashboardService(
+		dashboardRepo,
+	)
 
 	authHandler := auth.NewAuthHandler(authService)
 	projectHandler := project.NewProjectHandler(projectService)
 	taskHandler := task.NewTaskHandler(taskService)
+	dashboardHandler := dashboard.NewDashboardHandler(
+		dashboardService,
+	)
 
 	router.POST("/signup", authHandler.Signup)
 	router.POST("/login", authHandler.Login)
@@ -73,6 +81,8 @@ func main() {
 	protected.PATCH("/tasks/:id", taskHandler.UpdateTask)
 
 	protected.DELETE("/tasks/:id", taskHandler.DeleteTask)
+
+	protected.GET("/dashboard", dashboardHandler.GetDashboard)
 
 	log.Println("Server running on port", cfg.AppPort)
 
