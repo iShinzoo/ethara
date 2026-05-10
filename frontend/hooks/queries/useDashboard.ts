@@ -5,6 +5,6 @@ export const useDashboardStats = () => {
   return useQuery({
     queryKey: ['dashboard'],
     queryFn: () => dashboardService.getStats(),
-    staleTime: 1000 * 60 * 5, // 5 minutes
+    staleTime: 1000 * 10, // 10 seconds — ensures stats stay in sync with task/project mutations
   });
 };

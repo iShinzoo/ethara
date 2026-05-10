@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 import { useAddProjectMember } from '@/hooks/queries/useProjects';
+import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -39,6 +40,7 @@ interface AddMemberModalProps {
 export function AddMemberModal({ projectId }: AddMemberModalProps) {
   const [open, setOpen] = useState(false);
   const addMemberMutation = useAddProjectMember();
+  const queryClient = useQueryClient();
 
   const form = useForm<AddMemberFormData>({
     resolver: zodResolver(addMemberSchema),
@@ -57,6 +59,8 @@ export function AddMemberModal({ projectId }: AddMemberModalProps) {
       toast.success('Member added successfully!');
       setOpen(false);
       form.reset();
+      // Force an immediate refetch so the member count on the card reflects the addition
+      await queryClient.refetchQueries({ queryKey: ['projects'] });
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Failed to add member';
       toast.error(errorMessage);
