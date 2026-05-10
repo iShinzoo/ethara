@@ -1,6 +1,7 @@
 'use client';
 
 import { Task } from '@/types/dashboard';
+import { Project } from '@/types/projects';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { TaskStatusBadge } from './task-status-badge';
 import { useDeleteTask, useUpdateTask } from '@/hooks/queries/useTasks';
@@ -10,11 +11,18 @@ import { toast } from 'sonner';
 
 interface TaskTableProps {
   tasks: Task[];
+  projects?: Project[];
 }
 
-export function TaskTable({ tasks }: TaskTableProps) {
+export function TaskTable({ tasks, projects = [] }: TaskTableProps) {
   const deleteTaskMutation = useDeleteTask();
   const updateTaskMutation = useUpdateTask();
+
+  const getProjectName = (task: Task): string => {
+    if (task.project_name) return task.project_name;
+    const project = projects.find((p) => p.id === task.project_id);
+    return project?.name ?? '-';
+  };
 
   const handleDelete = async (taskId: string) => {
     if (!confirm('Are you sure you want to delete this task?')) return;
@@ -73,7 +81,7 @@ export function TaskTable({ tasks }: TaskTableProps) {
                   className="border-b border-border hover:bg-muted/50 transition-colors"
                 >
                   <td className="py-3 px-3 text-foreground truncate max-w-xs font-medium">{task.title}</td>
-                  <td className="py-3 px-3 text-muted-foreground text-sm">{task.project_name || '-'}</td>
+                  <td className="py-3 px-3 text-muted-foreground text-sm">{getProjectName(task)}</td>
                   <td className="py-3 px-3">
                     <select
                       value={task.status}

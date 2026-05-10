@@ -30,6 +30,7 @@ export const useCreateTask = () => {
     mutationFn: (data: CreateTaskRequest) => tasksService.createTask(data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
     },
   });
@@ -43,6 +44,7 @@ export const useUpdateTask = () => {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['tasks', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
     },
   });

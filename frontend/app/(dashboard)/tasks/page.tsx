@@ -37,7 +37,7 @@ export default function TasksPage() {
       <TaskFilters filters={filters} onFilterChange={setFilters} projects={projects} />
 
       {tasks && tasks.length > 0 ? (
-        <TaskTable tasks={tasks} />
+        <TaskTable tasks={tasks} projects={projects} />
       ) : (
         <EmptyState
           icon={CheckSquare2}
