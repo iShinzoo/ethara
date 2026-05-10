@@ -32,6 +32,9 @@ export const useCreateTask = () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
       queryClient.invalidateQueries({ queryKey: ['projects'] });
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      // Force immediate refetch so project task counts update without waiting for staleTime
+      queryClient.refetchQueries({ queryKey: ['projects'] });
+      queryClient.refetchQueries({ queryKey: ['dashboard'] });
     },
   });
 };
@@ -46,6 +49,9 @@ export const useUpdateTask = () => {
       queryClient.invalidateQueries({ queryKey: ['tasks', variables.id] });
       queryClient.invalidateQueries({ queryKey: ['projects'] });
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      // Force immediate refetch so the task completion bar reflects the new status
+      queryClient.refetchQueries({ queryKey: ['projects'] });
+      queryClient.refetchQueries({ queryKey: ['dashboard'] });
     },
   });
 };
@@ -56,7 +62,10 @@ export const useDeleteTask = () => {
     mutationFn: (id: string) => tasksService.deleteTask(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
+      queryClient.refetchQueries({ queryKey: ['projects'] });
+      queryClient.refetchQueries({ queryKey: ['dashboard'] });
     },
   });
 };
