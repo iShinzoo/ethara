@@ -57,7 +57,7 @@ A full-stack team task management application built with a Go backend and a Next
 ┌─────────────────────────────────────────────────────────┐
 │                     Next.js Frontend                    │
 │                                                         │
-│  App Router pages  →  React Query hooks  →  Services   │
+│  App Router pages  →  React Query hooks  →  Services    │
 │  (app/(dashboard))    (hooks/queries/)     (services/)  │
 │                              │                          │
 │                         Axios client                    │
@@ -68,8 +68,8 @@ A full-stack team task management application built with a Go backend and a Next
 ┌─────────────────────────────────────────────────────────┐
 │                      Go API Server                      │
 │                                                         │
-│  Gin Router  →  Handlers  →  Services  →  Repositories │
-│  (cmd/api)     (internal/)  (internal/)  (internal/)   │
+│  Gin Router  →  Handlers  →  Services  →  Repositories  │
+│  (cmd/api)     (internal/)  (internal/)  (internal/)    │
 │                              │                          │
 │                           GORM ORM                      │
 └──────────────────────────────┬──────────────────────────┘
